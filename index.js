@@ -19,6 +19,7 @@ async function run() {
             const query = {}
             const cursor = productCollections.find(query);
             const result = await cursor.toArray()
+            // console.log(result);
             res.send(result);
         })
 
