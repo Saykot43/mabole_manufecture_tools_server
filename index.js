@@ -15,6 +15,7 @@ async function run() {
     try {
         await client.connect();
         const productCollections = client.db('mobile-manufacture').collection("products")
+        const reviewCollections = client.db('mobile-manufacture').collection("reviewss")
         // Read all data
         app.get('/products', async (req, res) => {
             const query = req.query;
@@ -48,6 +49,27 @@ async function run() {
             const result = await productCollections.updateOne(filter, updateDoc, options);
             res.send(result);
         })
+
+        // Review part
+        // Review all data
+        app.get('/review', async (req, res) => {
+            const query = req.query;
+            const cursor = reviewCollections.find(query);
+            const result = await cursor.toArray()
+            // console.log(result);
+            res.send(result);
+        })
+
+        //Create a review
+
+        app.post('/review', async (req, res) => {
+
+            const data = req.body;
+
+            const result = await reviewCollections.insertOne(data);
+            res.send(result);
+        })
+
 
     } finally {
 
